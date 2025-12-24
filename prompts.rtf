@@ -1,0 +1,134 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 I need you to convert a PDF form into Form.io-compliant JSON.\
+\
+# UPLOADED FILES\
+1. PDF form to convert: [PDF will be attached]\
+2. Reference Form.io JSON: [Paste your reference Form.io project JSON here]\
+\
+# YOUR TASK\
+\
+Analyze the PDF form and generate a complete Form.io JSON schema that:\
+\
+1. **Extracts all form fields** from the PDF\
+2. **Maps to appropriate Form.io component types**:\
+   - textfield, textarea, number, email, phoneNumber\
+   - datetime, select, radio, checkbox\
+   - address, currency, button, panel, columns\
+3. **Includes all validations** (required, patterns, min/max)\
+4. **Captures conditional logic** (e.g., "If Yes, answer b")\
+5. **Organizes into wizard pages** if multi-page\
+6. **Adds Review & Submit page** with certification checkbox\
+7. **Adds Confirmation page** with success message\
+\
+# FORM.IO STRUCTURE REQUIREMENTS\
+```json\
+\{\
+  "display": "wizard",  // Use "wizard" for multi-page forms\
+  "components": [\
+    \{\
+      "title": "Page 1: [Section Name]",\
+      "key": "page1",\
+      "type": "panel",\
+      "components": [\
+        \{\
+          "type": "textfield",\
+          "key": "firstName",\
+          "label": "First Name",\
+          "placeholder": "Enter first name",\
+          "validate": \{\
+            "required": true,\
+            "maxLength": 50\
+          \},\
+          "input": true\
+        \}\
+        // ... more fields\
+      ]\
+    \},\
+    // ... more pages\
+    \{\
+      "title": "Review & Submit",\
+      "key": "reviewSubmit",\
+      "type": "panel",\
+      "components": [\
+        \{\
+          "type": "htmlelement",\
+          "tag": "div",\
+          "content": "<h3>Please review your information</h3>",\
+          "key": "reviewHeader"\
+        \},\
+        \{\
+          "type": "checkbox",\
+          "label": "I certify that the information provided is true and correct",\
+          "key": "certificationCheckbox",\
+          "validate": \{\
+            "required": true\
+          \}\
+        \},\
+        \{\
+          "type": "button",\
+          "action": "submit",\
+          "label": "Submit Application",\
+          "theme": "primary",\
+          "key": "submitButton"\
+        \}\
+      ]\
+    \},\
+    \{\
+      "title": "Confirmation",\
+      "key": "confirmation",\
+      "type": "panel",\
+      "components": [\
+        \{\
+          "type": "htmlelement",\
+          "content": "<h2>Thank you! Your application has been submitted.</h2>",\
+          "key": "confirmationMessage"\
+        \}\
+      ]\
+    \}\
+  ]\
+\}\
+```\
+\
+# KEY REQUIREMENTS\
+\
+1. **All keys must be unique and camelCase**\
+2. **Use proper component types**:\
+   - Dates \uc0\u8594  `datetime` with `format: 'MM/dd/yyyy'`\
+   - Phone \uc0\u8594  `phoneNumber`\
+   - SSN \uc0\u8594  `textfield` with `inputMask: '999-99-9999'`\
+   - Yes/No \uc0\u8594  `radio` with two options\
+   - Address \uc0\u8594  `address` component or multiple textfields\
+3. **Add proper validations**:\
+   - Required fields \uc0\u8594  `"validate": \{"required": true\}`\
+   - Max length \uc0\u8594  `"maxLength": 50`\
+   - Patterns \uc0\u8594  `"pattern": "regex here"`\
+4. **Conditional logic**:\
+   - If field X is "Yes", show field Y\
+   - Use `"conditional": \{"show": true, "when": "fieldKey", "eq": "value"\}`\
+5. **Use reference JSON for patterns**:\
+   - Look at the reference JSON for similar field types\
+   - Copy validation patterns, layouts, and styling\
+   - Match the structure and naming conventions\
+\
+# SPECIAL HANDLING\
+\
+For complex fields like:\
+- **Repeating sections** (e.g., multiple children): Use `datagrid` or `editgrid`\
+- **Multi-column layouts**: Use `columns` component\
+- **Section grouping**: Use `panel` components\
+- **Conditional sections**: Add conditional logic to entire panels\
+\
+# OUTPUT FORMAT\
+\
+Return ONLY the Form.io JSON. No explanations, no markdown code blocks (or if you must use markdown, ensure I can copy just the JSON). The JSON should be:\
+- Complete and valid\
+- Ready to import into Form.io\
+- Properly formatted with indentation\
+\
+Generate the Form.io JSON now.}
